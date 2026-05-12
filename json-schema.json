@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agents-txt.org/schema/v2.0.json",
+  "title": "agents.txt JSON API Schema",
+  "description": "Validation schema for the /api/agents JSON endpoint. Mirrors the agents.txt structured data.",
+  "type": "object",
+  "required": ["agents-txt", "updated", "identity"],
+  "properties": {
+    "agents-txt": {
+      "type": "string",
+      "const": "2.0",
+      "description": "Schema version"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Last update date (YYYY-MM-DD)"
+    },
+    "discovery": {
+      "type": "object",
+      "description": "Cross-references to other machine-readable files",
+      "additionalProperties": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "terms": {
+      "type": "object",
+      "description": "Terms of use for AI agents",
+      "required": ["allowed", "denied"],
+      "properties": {
+        "allowed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "denied": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["agent", "owner", "access"],
+            "properties": {
+              "agent": { "type": "string" },
+              "owner": { "type": "string" },
+              "access": {
+                "type": "string",
+                "enum": ["full", "answer-engine", "denied"]
+              },
+              "condition": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": ["name", "owner", "website", "email"],
+      "properties": {
+        "name": { "type": "string" },
+        "tagline": { "type": "string" },
+        "description": { "type": "string" },
+        "owner": { "type": "string" },
+        "since": { "type": "number" },
+        "location": { "type": "string" },
+        "website": { "type": "string", "format": "uri" },
+        "contact": { "type": "string", "format": "uri" },
+        "privacy": { "type": "string", "format": "uri" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "language": { "type": "string" }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "description": "Behavioral directives for AI agents",
+      "properties": {
+        "role": { "type": "string" },
+        "tone": { "type": "string" },
+        "perspective": { "type": "string" },
+        "values": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "avoid": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description", "url"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "starting_price": { "type": "string" },
+          "included_in": { "type": "string" },
+          "delivery": { "type": "string" },
+          "includes": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "api": {
+      "type": "object",
+      "description": "API schema reference for tool calling",
+      "properties": {
+        "spec": { "type": "string", "format": "uri" },
+        "spec_version": { "type": "string" },
+        "auth": { "type": "string" }
+      }
+    }
+  }
+}

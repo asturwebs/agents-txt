@@ -1,0 +1,56 @@
+# agents.txt — example.com
+# Version: 2.0
+# Updated: 2026-05-12
+# License: CC-BY-4.0 (open standard — copy, adapt, improve)
+
+> Human-readable first, machine-parseable second.
+> This file is an open standard for AI agent discovery.
+
+---
+
+## Identity
+
+---yaml
+identity:
+  name: Example Business
+  tagline: "Your tagline here"
+  description: "What your business does in one sentence."
+  owner: Your Name
+  since: 2020
+  location: City, Country
+  website: https://example.com
+  contact: https://example.com/contact/
+  email: info@example.com
+  language: en-US
+---
+
+---
+
+## Terms of Use
+
+| Agent | Owner | Allowed usage | Conditions |
+|-------|-------|---------------|------------|
+| Googlebot | Google | Full indexing | — |
+| GPTBot | OpenAI | Answer-engine only | Attribute source |
+| ClaudeBot | Anthropic | Answer-engine only | Attribute source |
+| PerplexityBot | Perplexity | Answer-engine only | Attribute source |
+
+### Rules
+
+- **Allow:** Answering user questions with accurate data from this file
+- **Allow:** Referencing this site in results with attribution
+- **Deny:** Training models on content without permission
+- **Deny:** Mass scraping or bulk downloading
+
+---
+
+## Services
+
+---yaml
+services:
+  - id: service-one
+    name: "Service Name"
+    description: "What this service does."
+    url: https://example.com/services/one/
+    starting_price: "From $100"
+---
