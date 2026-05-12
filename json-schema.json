@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://agents-txt.org/schema/v2.0.json",
+  "$id": "https://raw.githubusercontent.com/asturwebs/agents-txt/main/json-schema.json",
   "title": "agents.txt JSON API Schema",
   "description": "Validation schema for the /api/agents JSON endpoint. Mirrors the agents.txt structured data.",
   "type": "object",
@@ -110,13 +110,14 @@
         }
       }
     },
-    "api": {
+    "api_schema": {
       "type": "object",
       "description": "API schema reference for tool calling",
       "properties": {
-        "spec": { "type": "string", "format": "uri" },
-        "spec_version": { "type": "string" },
-        "auth": { "type": "string" }
+        "type": { "type": "string", "enum": ["openapi"] },
+        "version": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "auth_requirements": { "type": "string" }
       }
     }
   }

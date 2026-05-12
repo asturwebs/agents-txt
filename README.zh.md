@@ -21,7 +21,7 @@
 # agents.txt — example.com
 # Version: 2.0
 # Updated: 2026-05-12
-# License: CC-BY-4.0
+# License: MIT
 
 ## Identity
 

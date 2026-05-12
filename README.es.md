@@ -21,7 +21,7 @@ Rellena el hueco entre:
 # agents.txt — ejemplo.com
 # Version: 2.0
 # Updated: 2026-05-12
-# License: CC-BY-4.0
+# License: MIT
 
 ## Identity
 
@@ -103,9 +103,13 @@ LLM-context: https://ejemplo.com/llms.txt
 Sitemap: https://ejemplo.com/sitemap.xml
 ```
 
-## API JSON
+## API JSON y Esquema
 
-Sirve los mismos datos como JSON estructurado en `/api/agents`. Valida contra [json-schema.json](./json-schema.json).
+Sirve los mismos datos como JSON estructurado en `/api/agents`. Valida tu implementación contra [json-schema.json](./json-schema.json):
+
+```bash
+npx ajv-cli validate -s json-schema.json -d tu-respuesta-api.json
+```
 
 ## Implementación en Producción
 
