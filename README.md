@@ -38,10 +38,21 @@ identity:
 
 ## Terms of Use
 
-| Agent | Owner | Allowed usage | Conditions |
-|-------|-------|---------------|------------|
-| Googlebot | Google | Full indexing | — |
-| GPTBot | OpenAI | Answer-engine only | Attribute source |
+| Agent | Owner | Allowed usage | Conditions | Data usage |
+|-------|-------|---------------|------------|------------|
+| Googlebot | Google | Full indexing | — | — |
+| GPTBot | OpenAI | Answer-engine | Attribute source | rag, answer-engine |
+| Bytespider | ByteDance | Denied | — | — |
+
+### Data usage defaults
+
+---yaml
+terms:
+  data_usage:
+    training: false
+    rag: true
+    derivative: true
+---
 
 ## Services
 
@@ -57,7 +68,7 @@ services:
 
 ---yaml
 api_schema:
-  type: openapi
+  type: openapi  # or "mcp" for Model Context Protocol
   version: 3.1.0
   url: https://example.com/openapi.json
 ---
@@ -116,7 +127,19 @@ Serve the same data as structured JSON at `/api/agents`. The [json-schema.json](
 | `terms` | Agent permissions (allowed/denied) and conditions | No |
 | `voice` | Behavioral directives for AI agents | No |
 | `services` | Service catalog with pricing and URLs | No |
-| `api_schema` | OpenAPI spec reference for tool calling | No |
+| `api_schema` | OpenAPI or MCP reference for tool calling | No |
+
+### Data usage controls
+
+The `terms.data_usage` object provides granular control over how agents use your content:
+
+| Permission | Description | Default |
+|------------|-------------|---------|
+| `training` | Allow content to train foundation models | `false` |
+| `rag` | Allow content in retrieval-augmented generation | `true` |
+| `derivative` | Allow derivative works (translations, summaries) | `true` |
+
+Per-agent overrides are available via `agents[].data_usage` array (values: `answer-engine`, `rag`, `training`, `derivative`).
 
 ### Data validation
 
@@ -171,3 +194,19 @@ If your site implements the standard, show it:
 ## License
 
 MIT — copy, adapt, integrate into any commercial or open-source project.
+
+## Related Standards
+
+agents.txt is part of a growing ecosystem of machine-readable web standards for AI:
+
+| Standard | Purpose | Scope |
+|----------|---------|-------|
+| [robots.txt](https://datatracker.ietf.org/doc/html/rfc9309) (RFC 9309) | Crawler access control | Network level — what to crawl |
+| [llms.txt](https://llmstxt.org/) | LLM context provider | Knowledge — what to understand |
+| **agents.txt** (this) | Agent discovery + permissions | Identity + actions + execution |
+| [agents-brief.txt](https://github.com/jaspervanveen/agents-brief.txt) | Agent mission brief | Alternative approach to agent instructions |
+| [ai.txt](https://spawning.ai/ai-txt) (Spawning) | Training consent | Opt-in/opt-out for model training |
+| [ai.txt](https://arxiv.org/abs/2505.07834) (DSL paper) | Granular AI control | Per-element HTML control |
+| [operate.txt](https://www.reddit.com/r/webdev/comments/1jln4dp/) | UI operation guide | Browser automation behavior |
+| [AI Manifest](https://datatracker.ietf.org/doc/draft-han-ai-manifest/) (IETF draft) | Workflow instructions | Step-by-step task execution |
+| [Model Context Protocol](https://modelcontextprotocol.io/) | Tool discovery & execution | Runtime tool loading for agents |

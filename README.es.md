@@ -38,10 +38,21 @@ identity:
 
 ## Condiciones de uso
 
-| Agent | Owner | Allowed usage | Conditions |
-|-------|-------|---------------|------------|
-| Googlebot | Google | Full indexing | — |
-| GPTBot | OpenAI | Answer-engine only | Attribute source |
+| Agent | Owner | Allowed usage | Conditions | Data usage |
+|-------|-------|---------------|------------|------------|
+| Googlebot | Google | Full indexing | — | — |
+| GPTBot | OpenAI | Answer-engine | Attribute source | rag, answer-engine |
+| Bytespider | ByteDance | Denied | — | — |
+
+### Uso de datos por defecto
+
+---yaml
+terms:
+  data_usage:
+    training: false
+    rag: true
+    derivative: true
+---
 
 ## Services
 
@@ -57,7 +68,7 @@ services:
 
 ---yaml
 api_schema:
-  type: openapi
+  type: openapi  # o "mcp" para Model Context Protocol
   version: 3.1.0
   url: https://ejemplo.com/openapi.json
 ---
@@ -116,7 +127,19 @@ Sirve los mismos datos como JSON estructurado en `/api/agents`. El esquema [json
 | `terms` | Permisos de agentes (allowed/denied) y condiciones | No |
 | `voice` | Directivas de comportamiento para agentes IA | No |
 | `services` | Catálogo de servicios con precios y URLs | No |
-| `api_schema` | Referencia al spec OpenAPI para tool calling | No |
+| `api_schema` | Referencia a OpenAPI o MCP para tool calling | No |
+
+### Controles de uso de datos
+
+El objeto `terms.data_usage` proporciona control granular sobre cómo los agentes usan tu contenido:
+
+| Permiso | Descripción | Por defecto |
+|---------|-------------|-------------|
+| `training` | Permitir contenido para entrenar modelos fundacionales | `false` |
+| `rag` | Permitir contenido en generación aumentada por recuperación | `true` |
+| `derivative` | Permitir obras derivadas (traducciones, resúmenes) | `true` |
+
+Se pueden hacer sobreescripciones por agente mediante el array `agents[].data_usage` (valores: `answer-engine`, `rag`, `training`, `derivative`).
 
 ### Validación de datos
 
@@ -171,3 +194,19 @@ Si tu sitio implementa el estándar, muéstralo:
 ## Licencia
 
 MIT — copia, adapta, integra en cualquier proyecto comercial o de código abierto.
+
+## Estándares relacionados
+
+agents.txt es parte de un ecosistema creciente de estándares web legibles por máquinas para IA:
+
+| Estándar | Propósito | Alcance |
+|----------|-----------|---------|
+| [robots.txt](https://datatracker.ietf.org/doc/html/rfc9309) (RFC 9309) | Control de acceso a crawlers | Nivel de red — qué rastrear |
+| [llms.txt](https://llmstxt.org/) | Proveedor de contexto para LLMs | Conocimiento — qué entender |
+| **agents.txt** (este) | Descubrimiento + permisos de agentes | Identidad + acciones + ejecución |
+| [agents-brief.txt](https://github.com/jaspervanveen/agents-brief.txt) | Brief de misión del agente | Enfoque alternativo para instrucciones |
+| [ai.txt](https://spawning.ai/ai-txt) (Spawning) | Consentimiento de entrenamiento | Opt-in/opt-out para entrenamiento |
+| [ai.txt](https://arxiv.org/abs/2505.07834) (paper DSL) | Control granular de IA | Control por elemento HTML |
+| [operate.txt](https://www.reddit.com/r/webdev/comments/1jln4dp/) | Guía de operación UI | Comportamiento de automatización |
+| [AI Manifest](https://datatracker.ietf.org/doc/draft-han-ai-manifest/) (borrador IETF) | Instrucciones de flujo de trabajo | Ejecución de tareas paso a paso |
+| [Model Context Protocol](https://modelcontextprotocol.io/) | Descubrimiento y ejecución de herramientas | Carga dinámica de herramientas |

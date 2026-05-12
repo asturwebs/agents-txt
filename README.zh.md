@@ -38,10 +38,21 @@ identity:
 
 ## Terms of Use
 
-| Agent | Owner | Allowed usage | Conditions |
-|-------|-------|---------------|------------|
-| Googlebot | Google | Full indexing | — |
-| GPTBot | OpenAI | Answer-engine only | Attribute source |
+| Agent | Owner | Allowed usage | Conditions | Data usage |
+|-------|-------|---------------|------------|------------|
+| Googlebot | Google | Full indexing | — | — |
+| GPTBot | OpenAI | Answer-engine | Attribute source | rag, answer-engine |
+| Bytespider | ByteDance | Denied | — | — |
+
+### Data usage defaults
+
+---yaml
+terms:
+  data_usage:
+    training: false
+    rag: true
+    derivative: true
+---
 
 ## Services
 
@@ -57,7 +68,7 @@ services:
 
 ---yaml
 api_schema:
-  type: openapi
+  type: openapi  # 或 "mcp" 用于 Model Context Protocol
   version: 3.1.0
   url: https://example.com/openapi.json
 ---
@@ -116,7 +127,19 @@ Sitemap: https://example.com/sitemap.xml
 | `terms` | 智能体权限（allowed/denied）和条件 | 否 |
 | `voice` | AI 智能体的行为指令 | 否 |
 | `services` | 服务目录、定价和 URL | 否 |
-| `api_schema` | OpenAPI 规范引用（用于工具调用） | 否 |
+| `api_schema` | OpenAPI 或 MCP 规范引用（用于工具调用） | 否 |
+
+### 数据使用控制
+
+`terms.data_usage` 对象提供对代理如何使用你内容的精细控制：
+
+| 权限 | 描述 | 默认值 |
+|------|------|--------|
+| `training` | 允许内容用于训练基础模型 | `false` |
+| `rag` | 允许内容用于检索增强生成 | `true` |
+| `derivative` | 允许衍生作品（翻译、摘要） | `true` |
+
+可通过 `agents[].data_usage` 数组按代理覆盖（值：`answer-engine`、`rag`、`training`、`derivative`）。
 
 ### 验证你的实现
 
@@ -162,3 +185,19 @@ npx ajv-cli validate -s json-schema.json -d your-api-response.json
 ## 许可证
 
 MIT — 自由复制、改编、集成到任何商业或开源项目中。
+
+## 相关标准
+
+agents.txt 是不断增长的 AI 机器可读 Web 标准生态系统的一部分：
+
+| 标准 | 用途 | 范围 |
+|------|------|------|
+| [robots.txt](https://datatracker.ietf.org/doc/html/rfc9309) (RFC 9309) | 爬虫访问控制 | 网络层 — 允许抓取什么 |
+| [llms.txt](https://llmstxt.org/) | LLM 上下文提供 | 知识 — 理解什么 |
+| **agents.txt**（本标准） | 代理发现 + 权限 | 身份 + 操作 + 执行 |
+| [agents-brief.txt](https://github.com/jaspervanveen/agents-brief.txt) | 代理任务简报 | 代理指令的替代方案 |
+| [ai.txt](https://spawning.ai/ai-txt) (Spawning) | 训练同意 | 模型训练的选择加入/退出 |
+| [ai.txt](https://arxiv.org/abs/2505.07834) (DSL 论文) | 精细化 AI 控制 | 按 HTML 元素控制 |
+| [operate.txt](https://www.reddit.com/r/webdev/comments/1jln4dp/) | UI 操作指南 | 浏览器自动化行为 |
+| [AI Manifest](https://datatracker.ietf.org/doc/draft-han-ai-manifest/) (IETF 草案) | 工作流指令 | 分步任务执行 |
+| [Model Context Protocol](https://modelcontextprotocol.io/) | 工具发现和执行 | 代理的运行时工具加载 |

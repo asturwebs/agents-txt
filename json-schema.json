@@ -37,6 +37,15 @@
           "type": "array",
           "items": { "type": "string" }
         },
+        "data_usage": {
+          "type": "object",
+          "description": "Default data usage permissions (overridable per-agent)",
+          "properties": {
+            "training": { "type": "boolean", "description": "Allow content to train foundation models" },
+            "rag": { "type": "boolean", "description": "Allow content in retrieval-augmented generation" },
+            "derivative": { "type": "boolean", "description": "Allow derivative works (translations, summaries)" }
+          }
+        },
         "agents": {
           "type": "array",
           "items": {
@@ -49,7 +58,15 @@
                 "type": "string",
                 "enum": ["full", "answer-engine", "denied"]
               },
-              "condition": { "type": "string" }
+              "condition": { "type": "string" },
+              "data_usage": {
+                "type": "array",
+                "description": "Granular data usage permissions for this agent",
+                "items": {
+                  "type": "string",
+                  "enum": ["answer-engine", "rag", "training", "derivative"]
+                }
+              }
             }
           }
         }
@@ -112,9 +129,9 @@
     },
     "api_schema": {
       "type": "object",
-      "description": "API schema reference for tool calling",
+      "description": "API schema reference for tool calling (OpenAPI) or tool discovery (MCP)",
       "properties": {
-        "type": { "type": "string", "enum": ["openapi"] },
+        "type": { "type": "string", "enum": ["openapi", "mcp"] },
         "version": { "type": "string" },
         "url": { "type": "string", "format": "uri" },
         "auth_requirements": { "type": "string" }
