@@ -1,5 +1,8 @@
 # agents.txt — AI 智能体发现开放标准
 
+[![Standard: agents.txt](https://img.shields.io/badge/Standard-agents.txt_v2.0-blue?style=flat-square&logo=ai&logoColor=orange)](https://github.com/asturwebs/agents-txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 **版本：** 2.0 | **许可证：** MIT | **状态：** 草案
 
 🌐 [Español](./README.es.md) | [English](./README.md) | **中文**
@@ -103,9 +106,27 @@ LLM-context: https://example.com/llms.txt
 Sitemap: https://example.com/sitemap.xml
 ```
 
-## JSON API
+## JSON API 和模式
 
-在 `/api/agents` 以结构化 JSON 提供相同数据。使用 [json-schema.json](./json-schema.json) 进行验证。
+在 `/api/agents` 以结构化 JSON 提供相同数据。[json-schema.json](./json-schema.json) 定义结构：
+
+| 对象 | 描述 | 必需 |
+|------|------|------|
+| `identity` | 业务所有者、联系方式、网站 | **是** |
+| `terms` | 智能体权限（allowed/denied）和条件 | 否 |
+| `voice` | AI 智能体的行为指令 | 否 |
+| `services` | 服务目录、定价和 URL | 否 |
+| `api_schema` | OpenAPI 规范引用（用于工具调用） | 否 |
+
+### 验证你的实现
+
+```bash
+# 使用 ajv-cli
+npx ajv-cli validate -s json-schema.json -d your-api-response.json
+
+# 使用内置验证脚本
+./tools/validate.sh https://example.com/api/agents
+```
 
 ## 生产环境实现
 
@@ -129,6 +150,14 @@ Sitemap: https://example.com/sitemap.xml
 1. 提交 issue 说明你的用例或反馈
 2. 提交 PR 改进规范或添加翻译
 3. 将你的实现添加到采用者表格
+
+## 采用者徽章
+
+如果你的网站已实现此标准，请展示：
+
+```markdown
+[![agents.txt compliant](https://img.shields.io/badge/Standard-agents.txt_v2.0-blue?style=flat-square&logo=ai&logoColor=orange)](https://github.com/asturwebs/agents-txt)
+```
 
 ## 许可证
 

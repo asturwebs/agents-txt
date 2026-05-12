@@ -1,5 +1,8 @@
 # agents.txt — Estándar Abierto para el Descubrimiento de Agentes IA
 
+[![Standard: agents.txt](https://img.shields.io/badge/Standard-agents.txt_v2.0-blue?style=flat-square&logo=ai&logoColor=orange)](https://github.com/asturwebs/agents-txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 **Versión:** 2.0 | **Licencia:** MIT | **Estado:** Borrador
 
 🌐 **Español** | [English](./README.md) | [中文](./README.zh.md)
@@ -105,10 +108,33 @@ Sitemap: https://ejemplo.com/sitemap.xml
 
 ## API JSON y Esquema
 
-Sirve los mismos datos como JSON estructurado en `/api/agents`. Valida tu implementación contra [json-schema.json](./json-schema.json):
+Sirve los mismos datos como JSON estructurado en `/api/agents`. El esquema [json-schema.json](./json-schema.json) define la estructura:
+
+| Objeto | Descripción | Requerido |
+|--------|-------------|-----------|
+| `identity` | Propietario, contacto, presencia web | **Sí** |
+| `terms` | Permisos de agentes (allowed/denied) y condiciones | No |
+| `voice` | Directivas de comportamiento para agentes IA | No |
+| `services` | Catálogo de servicios con precios y URLs | No |
+| `api_schema` | Referencia al spec OpenAPI para tool calling | No |
+
+### Validación de datos
+
+| Campo | Formato | Ejemplo |
+|-------|---------|---------|
+| `website`, `url`, `contact` | URI | `https://ejemplo.com` |
+| `identity.email` | Email (RFC 5322) | `info@ejemplo.com` |
+| `agents[].access` | Enum: `full`, `answer-engine`, `denied` | `answer-engine` |
+| `updated` | Fecha (`YYYY-MM-DD`) | `2026-05-12` |
+
+### Valida tu implementación
 
 ```bash
+# Con ajv-cli
 npx ajv-cli validate -s json-schema.json -d tu-respuesta-api.json
+
+# Con el script incluido
+./tools/validate.sh https://ejemplo.com/api/agents
 ```
 
 ## Implementación en Producción
@@ -133,6 +159,14 @@ Código fuente: [github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs
 1. Abre un issue con tu caso de uso o feedback
 2. Envía un PR con mejoras al spec o traducciones
 3. Añade tu implementación a la tabla de Adoptantes
+
+## Insignia de adoptante
+
+Si tu sitio implementa el estándar, muéstralo:
+
+```markdown
+[![agents.txt compliant](https://img.shields.io/badge/Standard-agents.txt_v2.0-blue?style=flat-square&logo=ai&logoColor=orange)](https://github.com/asturwebs/agents-txt)
+```
 
 ## Licencia
 

@@ -1,5 +1,8 @@
 # agents.txt — Open Standard for AI Agent Discovery
 
+[![Standard: agents.txt](https://img.shields.io/badge/Standard-agents.txt_v2.0-blue?style=flat-square&logo=ai&logoColor=orange)](https://github.com/asturwebs/agents-txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 **Version:** 2.0 | **License:** MIT | **Status:** Draft
 
 🌐 [Español](./README.es.md) | **English** | [中文](./README.zh.md)
@@ -105,19 +108,34 @@ Sitemap: https://example.com/sitemap.xml
 
 ## JSON API & Schema
 
-Serve the same data as structured JSON at `/api/agents`. Validate your implementation against [json-schema.json](./json-schema.json):
+Serve the same data as structured JSON at `/api/agents`. The [json-schema.json](./json-schema.json) defines the structure:
+
+| Object | Description | Required |
+|--------|-------------|----------|
+| `identity` | Business owner, contact, web presence | **Yes** |
+| `terms` | Agent permissions (allowed/denied) and conditions | No |
+| `voice` | Behavioral directives for AI agents | No |
+| `services` | Service catalog with pricing and URLs | No |
+| `api_schema` | OpenAPI spec reference for tool calling | No |
+
+### Data validation
+
+| Field | Format | Example |
+|-------|--------|---------|
+| `website`, `url`, `contact` | URI | `https://example.com` |
+| `identity.email` | Email (RFC 5322) | `info@example.com` |
+| `agents[].access` | Enum: `full`, `answer-engine`, `denied` | `answer-engine` |
+| `updated` | Date (`YYYY-MM-DD`) | `2026-05-12` |
+
+### Validate your implementation
 
 ```bash
+# Using ajv-cli
 npx ajv-cli validate -s json-schema.json -d your-api-response.json
+
+# Using the included validator script
+./tools/validate.sh https://example.com/api/agents
 ```
-
-## JSON Schema
-
-The [validation schema](./json-schema.json) defines the structure for the `/api/agents` endpoint. Use it to:
-
-- Validate your implementation
-- Generate typed clients
-- Ensure consistency across updates
 
 ## Production Implementation
 
@@ -141,6 +159,14 @@ Source: [github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs/asturwe
 1. Open an issue with your use case or feedback
 2. Submit a PR with spec improvements or translations
 3. Add your implementation to the Adopters table
+
+## Adopter Badge
+
+If your site implements the standard, show it:
+
+```markdown
+[![agents.txt compliant](https://img.shields.io/badge/Standard-agents.txt_v2.0-blue?style=flat-square&logo=ai&logoColor=orange)](https://github.com/asturwebs/agents-txt)
+```
 
 ## License
 
