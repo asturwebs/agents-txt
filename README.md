@@ -1,6 +1,6 @@
 # agents.txt — Open Standard for AI Agent Discovery
 
-**Version:** 2.0 | **License:** CC-BY-4.0 | **Status:** Draft
+**Version:** 2.0 | **License:** MIT | **Status:** Draft
 
 🌐 [Español](./README.es.md) | **English** | [中文](./README.zh.md)
 
@@ -96,16 +96,20 @@ Add discovery pointers so agents can find your `agents.txt`:
 User-agent: *
 Allow: /
 
-# AI Agent Discovery
+# AI Agent Discovery (Proposed Directives)
 Agent-discovery: https://example.com/agents.txt
 LLM-context: https://example.com/llms.txt
 
 Sitemap: https://example.com/sitemap.xml
 ```
 
-## JSON API
+## JSON API & Schema
 
-Serve the same data as structured JSON at `/api/agents`. Validate against [json-schema.json](./json-schema.json).
+Serve the same data as structured JSON at `/api/agents`. Validate your implementation against [json-schema.json](./json-schema.json):
+
+```bash
+npx ajv-cli validate -s json-schema.json -d your-api-response.json
+```
 
 ## JSON Schema
 
@@ -140,4 +144,4 @@ Source: [github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs/asturwe
 
 ## License
 
-CC-BY-4.0 — copy, adapt, improve. Attribution appreciated but not required.
+MIT — copy, adapt, integrate into any commercial or open-source project.

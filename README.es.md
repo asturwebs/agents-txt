@@ -1,6 +1,6 @@
 # agents.txt — Estándar Abierto para el Descubrimiento de Agentes IA
 
-**Versión:** 2.0 | **Licencia:** CC-BY-4.0 | **Estado:** Borrador
+**Versión:** 2.0 | **Licencia:** MIT | **Estado:** Borrador
 
 🌐 **Español** | [English](./README.md) | [中文](./README.zh.md)
 
@@ -132,4 +132,4 @@ Código fuente: [github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs
 
 ## Licencia
 
-CC-BY-4.0 — copia, adapta, mejora. Se agradece la atribución pero no es obligatoria.
+MIT — copia, adapta, integra en cualquier proyecto comercial o de código abierto.

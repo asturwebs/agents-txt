@@ -1,7 +1,7 @@
 # agents.txt — example.com
 # Version: 2.0
 # Updated: 2026-05-12
-# License: CC-BY-4.0 (open standard — copy, adapt, improve)
+# License: MIT (open standard — copy, adapt, improve)
 
 > Human-readable first, machine-parseable second.
 > This file is an open standard for AI agent discovery.

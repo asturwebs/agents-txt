@@ -1,6 +1,6 @@
 # agents.txt — AI 智能体发现开放标准
 
-**版本：** 2.0 | **许可证：** CC-BY-4.0 | **状态：** 草案
+**版本：** 2.0 | **许可证：** MIT | **状态：** 草案
 
 🌐 [Español](./README.es.md) | [English](./README.md) | **中文**
 
@@ -64,7 +64,7 @@ api_schema:
 
 当自主 AI 智能体访问你的网站时，它需要回答：
 - **"谁在经营这个业务？"** → Identity 部分
-- **"我可以使用这些数据吗？"** → Terms of Use 部分
+- **"我可以使用这些数据吗？"** → 数据使用协议 (Terms of Use) 部分
 - **"他们提供什么？"** → Services 部分
 - **"我可以编程方式交互吗？"** → Agentic Endpoints（OpenAPI）
 
@@ -78,9 +78,9 @@ api_schema:
 | **Discovery** | 交叉引用 robots.txt、llms.txt、openapi.json | 推荐 |
 | **Terms of Use** | AI 智能体可以使用/不可以使用你的数据做什么 | 是 |
 | **Identity** | 企业名称、所有者、联系方式、位置 | 是 |
-| **Brand Voice** | 智能体应如何代表你的品牌 | 可选 |
+| **Brand Voice** | 品牌基调 (System Prompt) — 智能体应如何代表你的品牌 | 可选 |
 | **Services** | 你提供什么、价格、URL | 推荐 |
-| **Agentic Endpoints** | 用于工具调用的 OpenAPI 规范 | 可选 |
+| **Agentic Endpoints** | Agent 调用端点 (Tool Calling) — OpenAPI 规范 | 可选 |
 
 ## 格式
 
@@ -132,4 +132,4 @@ Sitemap: https://example.com/sitemap.xml
 
 ## 许可证
 
-CC-BY-4.0 — 复制、改编、改进。感谢注明来源但不强制。
+MIT — 自由复制、改编、集成到任何商业或开源项目中。
