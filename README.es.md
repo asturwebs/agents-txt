@@ -169,6 +169,53 @@ npx ajv-cli validate -s json-schema.json -d tu-respuesta-api.json
 
 Código fuente: [github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs/asturwebs-v2)
 
+## Usar agents.txt en tu chatbot
+
+agents.txt no es solo para agentes IA externos — tu propio chatbot debería usarlo como **Fuente Única de Verdad (SSOT)**.
+
+### ¿Por qué?
+
+La mayoría de los chatbots tienen los datos del negocio (precios, servicios, contacto) hardcodeados en el prompt del sistema. Esto crea duplicación: cambias un precio y tienes que actualizar la web y el prompt por separado. agents.txt elimina eso.
+
+### Cómo funciona
+
+1. **Define** tus datos de negocio una vez en agents.txt (identidad, servicios, voz, términos)
+2. **Sírvelos** programáticamente vía `/api/agents` (endpoint JSON)
+3. **Inyéctalos** como contexto en el prompt de sistema de tu chatbot
+
+### Ejemplo
+
+```typescript
+// 1. Obtén los datos de agents (o impórtalos desde tu módulo SSOT)
+const agentsData = await fetch('https://tusitio.com/api/agents').then(r => r.json());
+
+// 2. Construye el contexto de negocio desde los datos
+const businessContext = `
+## Identidad
+${agentsData.identity.name} — ${agentsData.identity.description}
+Contacto: ${agentsData.identity.email} | ${agentsData.identity.phone}
+
+## Servicios
+${agentsData.services.map(s => `- ${s.name}: ${s.description}`).join('\n')}
+`;
+
+// 3. Inyecta como mensaje system, separado del comportamiento
+const messages = [
+  { role: 'system', content: systemPrompt },      // comportamiento
+  { role: 'system', content: businessContext },    // datos desde agents.txt
+  { role: 'user', content: userMessage },
+];
+```
+
+### Beneficios
+
+- **Fuente única de verdad** — cambias datos en agents.txt, tu chatbot lo refleja al instante
+- **Prompts más limpios** — separas instrucciones de comportamiento de los datos de negocio
+- **Reutilizable entre clientes** — en chatbots multi-tenant, cada cliente usa su propio agents.txt
+- **A prueba de futuro** — al evolucionar tu negocio, tanto agentes externos como tu chatbot interno se mantienen sincronizados
+
+> **Implementación real:** AsturWebs usa este patrón. El chatbot BytIA (asturwebs.es) obtiene su contexto de negocio del mismo `/api/agents` que sirve a agentes IA externos. Ver el [código fuente de asturwebs-v2](https://github.com/asturwebs/asturwebs-v2).
+
 ## Adoptantes
 
 | Sitio | agents.txt | JSON API | OpenAPI |

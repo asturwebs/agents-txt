@@ -169,6 +169,53 @@ npx ajv-cli validate -s json-schema.json -d your-api-response.json
 
 Source: [github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs/asturwebs-v2)
 
+## Using agents.txt in your chatbot
+
+agents.txt is not only for external AI agents — your own chatbot should use it as its **Single Source of Truth (SSOT)**.
+
+### Why?
+
+Most chatbots have business data (pricing, services, contact info) hardcoded in the system prompt. This creates duplication: change a price and you must update both your website and your prompt. agents.txt eliminates this.
+
+### How it works
+
+1. **Define** your business data once in agents.txt (identity, services, voice, terms)
+2. **Serve** it programmatically via `/api/agents` (JSON endpoint)
+3. **Inject** it as context into your chatbot's system prompt at runtime
+
+### Example
+
+```typescript
+// 1. Fetch agents data (or import from your SSOT module)
+const agentsData = await fetch('https://tusitio.com/api/agents').then(r => r.json());
+
+// 2. Build business context from the data
+const businessContext = `
+## Identity
+${agentsData.identity.name} — ${agentsData.identity.description}
+Contact: ${agentsData.identity.email} | ${agentsData.identity.phone}
+
+## Services
+${agentsData.services.map(s => `- ${s.name}: ${s.description}`).join('\n')}
+`;
+
+// 3. Inject as system message, separate from behavior
+const messages = [
+  { role: 'system', content: systemPrompt },      // behavior only
+  { role: 'system', content: businessContext },    // data from agents.txt
+  { role: 'user', content: userMessage },
+];
+```
+
+### Benefits
+
+- **Single source of truth** — change data in agents.txt, your chatbot reflects it instantly
+- **Cleaner prompts** — separate behavior instructions from business data
+- **Reusable across clients** — for multi-tenant chatbots, each client's agents.txt feeds their own instance
+- **Future-proof** — as your business evolves, both external agents and your internal chatbot stay in sync
+
+> **Real-world implementation:** AsturWebs uses this pattern. The chatbot BytIA (asturwebs.es) gets its business context from the same `/api/agents` that serves external AI agents. See the [asturwebs-v2 source](https://github.com/asturwebs/asturwebs-v2).
+
 ## Adopters
 
 | Site | agents.txt | JSON API | OpenAPI |

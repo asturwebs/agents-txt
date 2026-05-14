@@ -160,6 +160,53 @@ npx ajv-cli validate -s json-schema.json -d your-api-response.json
 
 源代码：[github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs/asturwebs-v2)
 
+## 在你的聊天机器人中使用 agents.txt
+
+agents.txt 不仅适用于外部 AI 代理 — 你自己的聊天机器人也应将其用作**唯一真实来源 (SSOT)**。
+
+### 为什么？
+
+大多数聊天机器人将业务数据（价格、服务、联系方式）硬编码在系统提示词中。这会造成重复：修改价格时，你必须同时更新网站和提示词。agents.txt 消除了这个问题。
+
+### 工作原理
+
+1. **定义** — 在 agents.txt 中一次性定义你的业务数据（身份、服务、品牌声音、条款）
+2. **提供** — 通过 `/api/agents`（JSON 端点）以编程方式提供数据
+3. **注入** — 在运行时将数据作为上下文注入聊天机器人的系统提示词
+
+### 示例
+
+```typescript
+// 1. 获取 agents 数据（或从你的 SSOT 模块导入）
+const agentsData = await fetch('https://tusitio.com/api/agents').then(r => r.json());
+
+// 2. 从数据构建业务上下文
+const businessContext = `
+## 身份
+${agentsData.identity.name} — ${agentsData.identity.description}
+联系方式：${agentsData.identity.email} | ${agentsData.identity.phone}
+
+## 服务
+${agentsData.services.map(s => `- ${s.name}: ${s.description}`).join('\n')}
+`;
+
+// 3. 作为系统消息注入，与行为指令分开
+const messages = [
+  { role: 'system', content: systemPrompt },      // 仅行为指令
+  { role: 'system', content: businessContext },    // 来自 agents.txt 的数据
+  { role: 'user', content: userMessage },
+];
+```
+
+### 优势
+
+- **唯一真实来源** — 修改 agents.txt 中的数据，聊天机器人即时反映
+- **更简洁的提示词** — 将行为指令与业务数据分离
+- **跨客户端可复用** — 对于多租户聊天机器人，每个客户端使用自己的 agents.txt
+- **面向未来** — 随着业务发展，外部代理和内部聊天机器人保持同步
+
+> **实际应用案例：** AsturWebs 使用此模式。其聊天机器人 BytIA (asturwebs.es) 从同一 `/api/agents` 获取业务上下文，该端点也为外部 AI 代理提供服务。查看 [asturwebs-v2 源代码](https://github.com/asturwebs/asturwebs-v2)。
+
 ## 采用者
 
 | 网站 | agents.txt | JSON API | OpenAPI |
