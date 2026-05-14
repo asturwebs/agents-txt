@@ -178,7 +178,7 @@ agents.txt 不仅适用于外部 AI 代理 — 你自己的聊天机器人也应
 
 ```typescript
 // 1. 获取 agents 数据（或从你的 SSOT 模块导入）
-const agentsData = await fetch('https://tusitio.com/api/agents').then(r => r.json());
+const agentsData = await fetch('https://asturwebs.es/api/agents').then(r => r.json());
 
 // 2. 从数据构建业务上下文
 const businessContext = `

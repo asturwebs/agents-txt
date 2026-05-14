@@ -187,7 +187,7 @@ La mayoría de los chatbots tienen los datos del negocio (precios, servicios, co
 
 ```typescript
 // 1. Obtén los datos de agents (o impórtalos desde tu módulo SSOT)
-const agentsData = await fetch('https://tusitio.com/api/agents').then(r => r.json());
+const agentsData = await fetch('https://asturwebs.es/api/agents').then(r => r.json());
 
 // 2. Construye el contexto de negocio desde los datos
 const businessContext = `

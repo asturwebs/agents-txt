@@ -187,7 +187,7 @@ Most chatbots have business data (pricing, services, contact info) hardcoded in 
 
 ```typescript
 // 1. Fetch agents data (or import from your SSOT module)
-const agentsData = await fetch('https://tusitio.com/api/agents').then(r => r.json());
+const agentsData = await fetch('https://asturwebs.es/api/agents').then(r => r.json());
 
 // 2. Build business context from the data
 const businessContext = `
