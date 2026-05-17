@@ -89,7 +89,7 @@ Ningún otro estándar proporciona las cuatro cosas.
 | Sección | Propósito | Requerida |
 |----------|-----------|-----------|
 | **Header** | Versión, fecha, licencia | Sí |
-| **Discovery** | Referencias cruzadas a robots.txt, llms.txt, openapi.json | Recomendada |
+| **Discovery** | Referencias cruzadas a llms.txt, openapi.json via etiquetas HTML `<link>` | Recomendada |
 | **Condiciones de uso** | Qué pueden/no pueden hacer los agentes IA con tus datos | Sí |
 | **Identity** | Nombre del negocio, propietario, contacto, ubicación | Sí |
 | **Brand Voice** | Cómo deben representar tu marca los agentes | Opcional |
@@ -102,20 +102,16 @@ Ningún otro estándar proporciona las cuatro cosas.
 - Legible por humanos primero, analizable por máquinas segundo
 - Los bloques YAML contienen todos los datos estructurados; el resto es prosa
 
-## Integración con robots.txt
+## Discovery via HTML
 
-Añade punteros de discovery para que los agentes encuentren tu `agents.txt`:
+Añade etiquetas `<link>` en el `<head>` de tu HTML para que los agentes descubran tus archivos de IA. Esto sigue la semántica HTML estándar (como `<link rel="icon">`) y es compatible con RFC 9309 — sin directivas inventadas en `robots.txt`:
 
-```text
-User-agent: *
-Allow: /
-
-# AI Agent Discovery
-Agent-discovery: https://ejemplo.com/agents.txt
-LLM-context: https://ejemplo.com/llms.txt
-
-Sitemap: https://ejemplo.com/sitemap.xml
+```html
+<link rel="agent" href="/agents.txt" />
+<link rel="llms" href="/llms.txt" />
 ```
+
+Cualquier crawler o LLM que parsee HTML los encontrará. `robots.txt` solo debe contener directivas estándar (User-agent, Allow, Disallow, Sitemap).
 
 ## API JSON y Esquema
 
@@ -166,6 +162,10 @@ npx ajv-cli validate -s json-schema.json -d tu-respuesta-api.json
 - [agents.txt](https://asturwebs.es/agents.txt) — Versión Markdown
 - [/api/agents](https://asturwebs.es/api/agents) — Versión JSON
 - [openapi.json](https://asturwebs.es/openapi.json) — Spec OpenAPI 3.1.0
+
+**Artículos:**
+- [agents.txt: el estándar que creé para que la IA sepa quién eres y qué puede hacer](https://asturwebs.es/blog/agents-txt-openapi-descubrimiento-agentes-ia-2026/) — qué es, por qué, arquitectura SSOT, las tres capas
+- [BytIA: el chatbot que sabe dónde estás y cómo te sientes](https://asturwebs.es/blog/chatbot-ia-consciente-pagina-emociones-lead-scoring-2026/) — chatbot en producción alimentado por datos de agents.txt
 
 Código fuente: [github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs/asturwebs-v2)
 
@@ -223,6 +223,13 @@ const messages = [
 | [asturwebs.es](https://asturwebs.es/agents.txt) | ✅ | ✅ | ✅ |
 
 *Para añadir tu sitio, abre un PR editando esta tabla.*
+
+## Documentación
+
+| Archivo | Propósito |
+|---------|-----------|
+| [docs/ecosystem.md](./docs/ecosystem.md) | Ecosistema competitivo, estrategia de posicionamiento, flywheel de adopción |
+| [docs/research/](./docs/research/) | Investigación sobre estándares web para IA |
 
 ## Contribuir
 

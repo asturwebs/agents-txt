@@ -89,7 +89,7 @@ No other standard provides all four.
 | Section | Purpose | Required |
 |---------|---------|----------|
 | **Header** | Version, date, license | Yes |
-| **Discovery** | Cross-references to robots.txt, llms.txt, openapi.json | Recommended |
+| **Discovery** | Cross-references to llms.txt, openapi.json via HTML `<link>` tags | Recommended |
 | **Terms of Use** | What AI agents can/cannot do with your data | Yes |
 | **Identity** | Business name, owner, contact, location | Yes |
 | **Brand Voice** | How agents should represent your brand | Optional |
@@ -102,20 +102,16 @@ No other standard provides all four.
 - Human-readable first, machine-parseable second
 - YAML blocks contain all structured data; everything else is prose
 
-## Integration with robots.txt
+## Discovery via HTML
 
-Add discovery pointers so agents can find your `agents.txt`:
+Add `<link>` tags in your HTML `<head>` so agents discover your AI-related files. This follows standard HTML semantics (like `<link rel="icon">`) and is RFC 9309 compliant — no invented directives in `robots.txt`:
 
-```text
-User-agent: *
-Allow: /
-
-# AI Agent Discovery (Proposed Directives)
-Agent-discovery: https://example.com/agents.txt
-LLM-context: https://example.com/llms.txt
-
-Sitemap: https://example.com/sitemap.xml
+```html
+<link rel="agent" href="/agents.txt" />
+<link rel="llms" href="/llms.txt" />
 ```
+
+Any crawler or LLM that parses HTML will find these. `robots.txt` should only contain standard directives (User-agent, Allow, Disallow, Sitemap).
 
 ## JSON API & Schema
 
@@ -166,6 +162,10 @@ npx ajv-cli validate -s json-schema.json -d your-api-response.json
 - [agents.txt](https://asturwebs.es/agents.txt) — Markdown version
 - [/api/agents](https://asturwebs.es/api/agents) — JSON version
 - [openapi.json](https://asturwebs.es/openapi.json) — OpenAPI 3.1.0 spec
+
+**Blog posts:**
+- [agents.txt: the standard I created for AI agent discovery](https://asturwebs.es/blog/agents-txt-openapi-descubrimiento-agentes-ia-2026/) — what it is and why, SSOT architecture, the three-layer stack
+- [BytIA: the chatbot that knows where you are and how you feel](https://asturwebs.es/blog/chatbot-ia-consciente-pagina-emociones-lead-scoring-2026/) — production chatbot powered by agents.txt data
 
 Source: [github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs/asturwebs-v2)
 
@@ -223,6 +223,13 @@ const messages = [
 | [asturwebs.es](https://asturwebs.es/agents.txt) | ✅ | ✅ | ✅ |
 
 *To add your site, open a PR editing this table.*
+
+## Documentation
+
+| File | Purpose |
+|------|---------|
+| [docs/ecosystem.md](./docs/ecosystem.md) | Competitive landscape, positioning strategy, adoption flywheel |
+| [docs/research/](./docs/research/) | Background research on related AI web standards |
 
 ## Contributing
 

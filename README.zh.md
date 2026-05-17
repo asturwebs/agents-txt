@@ -89,7 +89,7 @@ api_schema:
 | 部分 | 用途 | 是否必需 |
 |------|------|----------|
 | **Header** | 版本、日期、许可证 | 是 |
-| **Discovery** | 交叉引用 robots.txt、llms.txt、openapi.json | 推荐 |
+| **Discovery** | 通过 HTML `<link>` 标签交叉引用 llms.txt、openapi.json | 推荐 |
 | **Terms of Use** | AI 智能体可以使用/不可以使用你的数据做什么 | 是 |
 | **Identity** | 企业名称、所有者、联系方式、位置 | 是 |
 | **Brand Voice** | 品牌基调 (System Prompt) — 智能体应如何代表你的品牌 | 可选 |
@@ -102,20 +102,16 @@ api_schema:
 - 人类可读优先，机器可解析其次
 - YAML 块包含所有结构化数据；其余部分为散文文本
 
-## 与 robots.txt 集成
+## 通过 HTML 发现
 
-在 `robots.txt` 中添加发现指针，以便智能体找到你的 `agents.txt`：
+在 HTML `<head>` 中添加 `<link>` 标签，让智能体发现你的 AI 相关文件。这遵循标准 HTML 语义（类似 `<link rel="icon">`），并符合 RFC 9309 — 无需在 `robots.txt` 中编造指令：
 
-```text
-User-agent: *
-Allow: /
-
-# AI Agent Discovery
-Agent-discovery: https://example.com/agents.txt
-LLM-context: https://example.com/llms.txt
-
-Sitemap: https://example.com/sitemap.xml
+```html
+<link rel="agent" href="/agents.txt" />
+<link rel="llms" href="/llms.txt" />
 ```
+
+任何解析 HTML 的爬虫或 LLM 都能找到这些标签。`robots.txt` 应仅包含标准指令（User-agent、Allow、Disallow、Sitemap）。
 
 ## JSON API 和模式
 
@@ -157,6 +153,10 @@ npx ajv-cli validate -s json-schema.json -d your-api-response.json
 - [agents.txt](https://asturwebs.es/agents.txt) — Markdown 版本
 - [/api/agents](https://asturwebs.es/api/agents) — JSON 版本
 - [openapi.json](https://asturwebs.es/openapi.json) — OpenAPI 3.1.0 规范
+
+**博客文章：**
+- [agents.txt：我创建的让 AI 了解你是谁的标准](https://asturwebs.es/blog/agents-txt-openapi-descubrimiento-agentes-ia-2026/) — 它是什么、为什么需要、SSOT 架构、三层体系
+- [BytIA：知道你在哪里和感受如何的聊天机器人](https://asturwebs.es/blog/chatbot-ia-consciente-pagina-emociones-lead-scoring-2026/) — 由 agents.txt 数据驱动的生产环境聊天机器人
 
 源代码：[github.com/asturwebs/asturwebs-v2](https://github.com/asturwebs/asturwebs-v2)
 
@@ -214,6 +214,13 @@ const messages = [
 | [asturwebs.es](https://asturwebs.es/agents.txt) | ✅ | ✅ | ✅ |
 
 *如需添加你的网站，请提交 PR 编辑此表格。*
+
+## 文档
+
+| 文件 | 用途 |
+|------|------|
+| [docs/ecosystem.md](./docs/ecosystem.md) | 竞争格局、定位策略、采用飞轮 |
+| [docs/research/](./docs/research/) | AI Web 标准相关研究 |
 
 ## 贡献
 
