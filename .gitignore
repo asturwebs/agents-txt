@@ -2,3 +2,6 @@
 *Zone.Identifier*
 
 .codegraph/
+
+# Local working state between sessions
+HANDOFF.md

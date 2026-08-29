@@ -145,6 +145,7 @@ npx ajv-cli validate -s json-schema.json -d your-api-response.json
 
 # 使用内置验证脚本
 ./tools/validate.sh https://example.com/api/agents
+./tools/validate-md.sh https://example.com/agents.txt  # Markdown 格式：本地文件或 URL
 ```
 
 ## 生产环境实现

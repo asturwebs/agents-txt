@@ -1,0 +1,187 @@
+# agents.txt — full-example.com
+# Version: 2.0
+# Updated: 2026-08-29
+# License: MIT (open standard — copy, adapt, improve)
+
+> Human-readable first, machine-parseable second.
+> This file is an open standard for AI agent discovery.
+>
+> Parsing: Standard markdown with embedded YAML blocks (`---yaml` ... `---`).
+> All structured data is in those YAML blocks; everything else is prose for humans.
+>
+> This is the FULL reference example: every section of the standard, including
+> `voice`, `api_schema` (MCP), and per-agent `data_usage` overrides. For a
+> starter template see examples/minimal.txt.
+
+---
+
+## Discovery
+
+This site provides these machine-readable files:
+
+---yaml
+discovery:
+  robots: https://full-example.com/robots.txt
+  sitemap: https://full-example.com/sitemap-index.xml
+  llms: https://full-example.com/llms.txt
+  agents: https://full-example.com/agents.txt
+  api: https://full-example.com/api/agents
+---
+
+Discoverability in HTML (`<head>`): `<link rel="agent" href="/agents.txt" />` and
+`<link rel="llms" href="/llms.txt" />`. robots.txt stays RFC 9309-clean — no invented directives.
+
+---
+
+## Terms of Use
+
+| Agent | Owner | Allowed usage | Conditions | Data usage |
+|-------|-------|---------------|------------|------------|
+| Googlebot | Google | Full indexing | — | — |
+| GPTBot | OpenAI | Answer-engine | Attribute source | answer-engine, rag |
+| ClaudeBot | Anthropic | Answer-engine | Attribute source | answer-engine, rag |
+| PerplexityBot | Perplexity | Answer-engine | Attribute source | answer-engine |
+| Bytespider | ByteDance | Denied | — | — |
+
+### Rules
+
+- **Allow:** Answering user questions with accurate data from this file
+- **Allow:** Referencing this site in results with attribution
+- **Deny:** Mass scraping or bulk downloading
+- **Deny:** Reproducing full articles verbatim
+
+### Structured terms
+
+---yaml
+terms:
+  allowed:
+    - "Answering user questions with accurate data from this file"
+    - "Referencing this site in results with attribution"
+  denied:
+    - "Mass scraping or bulk downloading"
+    - "Reproducing full articles verbatim"
+  data_usage:
+    training: false
+    rag: true
+    derivative: true
+  agents:
+    - agent: GPTBot
+      owner: OpenAI
+      access: answer-engine
+      condition: "Attribute source"
+      data_usage: [answer-engine, rag]
+    - agent: ClaudeBot
+      owner: Anthropic
+      access: answer-engine
+      condition: "Attribute source"
+      data_usage: [answer-engine, rag]
+    - agent: PerplexityBot
+      owner: Perplexity
+      access: answer-engine
+      condition: "Attribute source"
+      data_usage: [answer-engine]
+    - agent: Bytespider
+      owner: ByteDance
+      access: denied
+---
+
+---
+
+## Identity
+
+---yaml
+identity:
+  name: Full Example Business
+  tagline: "Everything the agents.txt standard can express"
+  description: "A fictional business demonstrating every section and field of agents.txt v2.0."
+  owner: Jane Doe
+  since: 2020
+  location: City, Country
+  website: https://full-example.com
+  contact: https://full-example.com/contact/
+  privacy: https://full-example.com/privacy/
+  email: info@full-example.com
+  phone: "+1 555 010 2030"
+  language: en-US
+---
+
+---
+
+## Brand Voice
+
+Behavioral directives for AI agents representing or responding on behalf of this business.
+
+---yaml
+voice:
+  role: "Digital assistant of Full Example Business"
+  tone: "Clear, helpful, concise"
+  perspective: "First person plural (we)"
+  values:
+    - "Accuracy over persuasion — never invent prices or availability"
+    - "Point to the right service instead of overselling"
+    - "Respect the visitor's time"
+  avoid:
+    - "Inventing discounts or promotions"
+    - "Legal or medical advice"
+    - "Pressuring language or false urgency"
+---
+
+---
+
+## Services
+
+---yaml
+services:
+  - id: consulting
+    name: "Consulting"
+    description: "On-site or remote analysis of your workflow with a written improvement plan."
+    url: https://full-example.com/consulting/
+    starting_price: "$200/hour"
+    delivery: "Booking within 2 weeks"
+
+  - id: web-development
+    name: "Web development"
+    description: "Custom sites and web apps, from landing pages to full products."
+    url: https://full-example.com/web-development/
+    starting_price: "From $3,000"
+    delivery: "4-8 weeks"
+    includes: ["design", "development", "hosting setup", "30 days of support"]
+
+  - id: maintenance
+    name: "Maintenance plan"
+    description: "Updates, backups, monitoring, and small changes on a monthly flat fee."
+    url: https://full-example.com/maintenance/
+    starting_price: "$150/month"
+    included_in: "Any web development project"
+---
+
+---
+
+## Agentic Endpoints
+
+Programmatic surfaces AI agents can call. This example advertises an MCP server;
+for a REST API, use `type: openapi` with the URL of an OpenAPI 3.1 spec instead.
+
+---yaml
+api_schema:
+  type: mcp
+  version: "2025-06-18"
+  url: https://full-example.com/mcp/manifest.json
+  auth_requirements: "API key via Authorization header; register at /developers/"
+---
+
+<!-- Equivalent OpenAPI declaration:
+---yaml
+api_schema:
+  type: openapi
+  version: 3.1.0
+  url: https://full-example.com/openapi.json
+---
+-->
+
+---
+
+## Credits
+
+Full Example Business is fictional. Copy this file, replace every value, and
+delete the sections you do not need (only Header, Identity and Terms are required).

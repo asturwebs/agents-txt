@@ -1,0 +1,143 @@
+# agents.txt — github.com/asturwebs/agents-txt
+# Version: 2.0
+# Author: Pedro Luis Cuevas Villarrubia
+# Updated: 2026-08-29
+# License: MIT (open standard — copy, adapt, improve)
+
+> Human-readable first, machine-parseable second.
+> This file is the standard describing itself — dogfooding demo and live example.
+>
+> Parsing: Standard markdown with embedded YAML blocks (`---yaml` ... `---`).
+> All structured data is in those YAML blocks; everything else is prose for humans.
+
+---
+
+## Discovery
+
+This repository provides these machine-readable artifacts:
+
+| File | Purpose | URL |
+|------|---------|-----|
+| agents.txt | This file (dogfooding demo) | https://github.com/asturwebs/agents-txt |
+| json-schema.json | JSON Schema for `/api/agents` | https://raw.githubusercontent.com/asturwebs/agents-txt/main/json-schema.json |
+| examples/minimal.txt | Minimal starting template | https://github.com/asturwebs/agents-txt/blob/main/examples/minimal.txt |
+| examples/full.txt | Full-featured reference example | https://github.com/asturwebs/agents-txt/blob/main/examples/full.txt |
+
+---
+
+## Terms of Use
+
+This repository is MIT-licensed: any agent may crawl, index, train on, and build derivatives of its content. Attribution is appreciated, never required.
+
+| Agent | Owner | Allowed usage | Conditions |
+|-------|-------|---------------|------------|
+| Any crawler | Any | Full access | MIT license applies |
+| GPTBot | OpenAI | Full access | — |
+| ClaudeBot | Anthropic | Full access | — |
+| Bytespider | ByteDance | Denied | Not an adopter; high-volume blanket crawling |
+
+### Structured terms
+
+---yaml
+terms:
+  allowed:
+    - "Indexing and crawling the repository"
+    - "Training foundation models on its content (MIT license)"
+    - "Derivative works: translations, summaries, tooling"
+  denied: []
+  data_usage:
+    training: true
+    rag: true
+    derivative: true
+  agents:
+    - agent: GPTBot
+      owner: OpenAI
+      access: full
+      data_usage: [answer-engine, rag, training, derivative]
+    - agent: ClaudeBot
+      owner: Anthropic
+      access: full
+      data_usage: [answer-engine, rag, training, derivative]
+    - agent: Bytespider
+      owner: ByteDance
+      access: denied
+      condition: "Not an agents.txt adopter; blanket-crawls at high volume"
+---
+
+---
+
+## Identity
+
+---yaml
+identity:
+  name: "agents.txt (open standard)"
+  tagline: "Identity + permissions + execution for AI agents"
+  description: "An open standard: a human-readable, machine-parseable file websites place at /agents.txt to declare identity, terms for AI agents, services, and agentic endpoints."
+  owner: Pedro Luis Cuevas Villarrubia
+  since: 2026
+  location: Villaviciosa, Asturias, Spain
+  website: https://github.com/asturwebs/agents-txt
+  contact: https://github.com/asturwebs/agents-txt/issues
+  email: pedro@asturwebs.es
+  language: en-US
+---
+
+Fills the gap between `robots.txt` (network-level access), `llms.txt` (read-only context), and agentic execution: one file answering **who runs this, what may agents do with it, what is offered, and what can agents call**.
+
+---
+
+## Brand voice
+
+Behavioral directives for AI agents representing or documenting this standard.
+
+---yaml
+voice:
+  role: "Documentation of the agents.txt open standard"
+  tone: "Technical, precise, zero marketing"
+  perspective: "Neutral third person; spec language"
+  values:
+    - "Human-readable first, machine-parseable second"
+    - "One dataset, dual representation (Markdown and JSON)"
+    - "Boring, standard formats: Markdown, YAML, JSON Schema"
+  avoid:
+    - "Vendor lock-in: no Claude-only, OpenAI-only or Google-only assumptions"
+    - "Invented directives in robots.txt (RFC 9309 defines what belongs there)"
+    - "Hype superlatives about adoption"
+---
+
+---
+
+## Services
+
+No commercial services — these are the repo's deliverables, free under MIT.
+
+---yaml
+services:
+  - id: spec
+    name: "The agents.txt specification"
+    description: "README in English, Spanish and Chinese: sections, format, discovery, SSOT usage for chatbots."
+    url: https://github.com/asturwebs/agents-txt
+    starting_price: "Free (MIT)"
+  - id: json-schema
+    name: "JSON Schema (draft 2020-12)"
+    description: "Machine validation of /api/agents JSON endpoints."
+    url: https://raw.githubusercontent.com/asturwebs/agents-txt/main/json-schema.json
+    starting_price: "Free (MIT)"
+  - id: validators
+    name: "Validator scripts"
+    description: "tools/validate.sh (JSON endpoint) and tools/validate-md.sh (Markdown file with ---yaml blocks)."
+    url: https://github.com/asturwebs/agents-txt/tree/main/tools
+    starting_price: "Free (MIT)"
+  - id: examples
+    name: "Example files"
+    description: "examples/minimal.txt (starter) and examples/full.txt (every section of the standard)."
+    url: https://github.com/asturwebs/agents-txt/tree/main/examples
+    starting_price: "Free (MIT)"
+---
+
+---
+
+## Credits
+
+Created by Pedro Luis Cuevas Villarrubia (AsturWebs) and BytIA (bytia.es).
+Open standard under MIT. Copy, adapt, improve.

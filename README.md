@@ -154,6 +154,7 @@ npx ajv-cli validate -s json-schema.json -d your-api-response.json
 
 # Using the included validator script
 ./tools/validate.sh https://example.com/api/agents
+./tools/validate-md.sh https://example.com/agents.txt  # Markdown side: local file or URL
 ```
 
 ## Production Implementation
